@@ -8,7 +8,7 @@ passport.use(
     {
       clientID: config.googleClientId,
       clientSecret: config.googleClientSecret,
-      callbackURL: "http://localhost:3001/auth/google/callback",
+      callbackURL: "http://localhost:3001/api/auth/google/callback",
     },
     async (accessToken: string, refreshToken: string, profile, done) => {
       try {
@@ -18,6 +18,10 @@ passport.use(
           user.accessToken = accessToken;
           user.refreshToken = refreshToken;
           await user.save();
+          console.log("Updated user with tokens:", {
+            accessToken: !!accessToken,
+            refreshToken: !!refreshToken,
+          });
           return done(null, user);
         }
 
@@ -26,6 +30,8 @@ passport.use(
           email: profile.emails?.[0]?.value || "",
           name: profile.displayName || "",
           picture: profile.photos?.[0]?.value || "",
+          accessToken: accessToken,
+          refreshToken: refreshToken,
         });
 
         await newUser.save();

@@ -20,6 +20,12 @@ const UserSchema: Schema<User> = new Schema(
     picture: {
       type: String,
     },
+    accessToken: {
+      type: String,
+    },
+    refreshToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,
