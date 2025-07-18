@@ -3,16 +3,6 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import config from "../config/config";
 import User from "../models/user";
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  picture?: string;
-  googleId: string;
-}
-
-const users: User[] = [];
-
 passport.use(
   new GoogleStrategy(
     {
@@ -25,6 +15,9 @@ passport.use(
         let user = await User.findOne({ googleId: profile.id });
 
         if (user) {
+          user.accessToken = accessToken;
+          user.refreshToken = refreshToken;
+          await user.save();
           return done(null, user);
         }
 
