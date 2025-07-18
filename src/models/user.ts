@@ -1,13 +1,7 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
+import { User } from "../types";
 
-export interface IUser extends Document {
-  googleId: string;
-  email: string;
-  name: string;
-  picture: string;
-}
-
-const UserSchema: Schema<IUser> = new Schema(
+const UserSchema: Schema<User> = new Schema(
   {
     googleId: {
       type: String,
@@ -32,6 +26,6 @@ const UserSchema: Schema<IUser> = new Schema(
   }
 );
 
-const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
+const User: Model<User> = mongoose.model<User>("User", UserSchema);
 
 export default User;

@@ -5,14 +5,16 @@ const router = Router();
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", {
+    scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"],
+  })
 );
 
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req: Request, res: Response) => {
-    res.json({ message: "callback successfully" });
+    res.json({ message: "Authentication successful with calendar access" });
   }
 );
 
