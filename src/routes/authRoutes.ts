@@ -1,16 +1,16 @@
 import { Router, Request, Response } from "express";
 import passport from "../auth/passport";
 
-const router = Router();
+const authRouter = Router();
 
-router.get(
+authRouter.get(
   "/google",
   passport.authenticate("google", {
     scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"],
   })
 );
 
-router.get(
+authRouter.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req: Request, res: Response) => {
@@ -18,7 +18,7 @@ router.get(
   }
 );
 
-router.post("/logout", (req: Request, res: Response) => {
+authRouter.post("/logout", (req: Request, res: Response) => {
   req.logout((err) => {
     if (err) {
       return res.status(500).json({ message: "Error logging out" });
@@ -27,7 +27,7 @@ router.post("/logout", (req: Request, res: Response) => {
   });
 });
 
-router.get("/me", (req: Request, res: Response) => {
+authRouter.get("/me", (req: Request, res: Response) => {
   if (req.isAuthenticated()) {
     res.json(req.user);
   } else {
@@ -35,4 +35,4 @@ router.get("/me", (req: Request, res: Response) => {
   }
 });
 
-export default router;
+export default authRouter;

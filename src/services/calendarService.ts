@@ -5,7 +5,7 @@ const createOAuth2Client = (accessToken: string, refreshToken: string) => {
   const oauth2Client = new google.auth.OAuth2(
     config.googleClientId,
     config.googleClientSecret,
-    "http://localhost:3001/auth/google/callback"
+    "http://localhost:3001/api/auth/google/callback"
   );
 
   oauth2Client.setCredentials({
@@ -40,7 +40,7 @@ export const getCalendarEvents = async (
   }
 };
 
-export const createEvent = async (
+export const creatCalendarEvent = async (
   accessToken: string,
   refreshToken: string,
   eventData: {

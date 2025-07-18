@@ -14,6 +14,6 @@ export interface User {
   name: string;
   picture?: string;
   googleId: string;
-  accessToken?: string;
-  refreshToken?: string;
+  accessToken: string;
+  refreshToken: string;
 }
