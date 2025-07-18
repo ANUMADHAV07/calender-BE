@@ -14,7 +14,7 @@ authRouter.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req: Request, res: Response) => {
-    res.json({ message: "Authentication successful with calendar access" });
+    res.redirect("http://localhost:3000/dashboard");
   }
 );
 

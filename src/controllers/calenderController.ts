@@ -11,13 +11,10 @@ export const getCalendarEventsController = async (
 ) => {
   try {
     const user = req.user as any;
-    const { timeMin, timeMax } = req.query;
-
     const events = await getCalendarEvents(
       user.accessToken,
       user.refreshToken,
-      timeMin as string,
-      timeMax as string
+      user.email
     );
 
     res.json(events);
@@ -34,6 +31,8 @@ export const createEventController = async (
   try {
     const user = req.user as any;
     const eventData = req.body;
+
+    console.log("event-data-c", eventData);
 
     const event = await creatCalendarEvent(
       user.accessToken,

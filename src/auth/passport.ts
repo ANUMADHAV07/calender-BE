@@ -15,16 +15,14 @@ passport.use(
         let user = await User.findOne({ googleId: profile.id });
 
         if (user) {
+          console.log("Existing user found, updating tokens");
           user.accessToken = accessToken;
-          user.refreshToken = refreshToken;
+
           await user.save();
-          console.log("Updated user with tokens:", {
-            accessToken: !!accessToken,
-            refreshToken: !!refreshToken,
-          });
           return done(null, user);
         }
 
+        console.log("Creating new user");
         const newUser = new User({
           googleId: profile.id,
           email: profile.emails?.[0]?.value || "",
@@ -34,9 +32,13 @@ passport.use(
           refreshToken: refreshToken,
         });
 
-        await newUser.save();
+        console.log("New user object:", newUser.toObject());
+
+        const savedUser = await newUser.save();
+        console.log("New user saved successfully:", savedUser._id);
         return done(null, newUser);
       } catch (error) {
+        console.log(error);
         return done(error);
       }
     }
